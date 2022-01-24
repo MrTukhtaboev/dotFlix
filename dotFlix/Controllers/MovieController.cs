@@ -81,11 +81,21 @@ namespace dotFlix.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMoviesAsync()
+        public async Task<IActionResult> GetMovies()
         {
             var movies = await _dbContext.Movies.Include(p => p.Author).ToListAsync();
 
             return Ok(movies);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostMovie([FromBody]Movie movie)
+        {
+            var entry = await _dbContext.Movies.AddAsync(movie);
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(entry.Entity);
         }
     }
 }
