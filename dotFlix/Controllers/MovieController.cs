@@ -87,7 +87,7 @@ namespace dotFlix.Controllers
 
             return Ok(movies);
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> PostMovie([FromBody]Movie movie)
         {
@@ -114,6 +114,34 @@ namespace dotFlix.Controllers
             var entity = await _dbContext.Movies.FindAsync(id);
 
             return Ok(entity);
+        }
+
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteMovie(long id)
+        {
+            var movie = await _dbContext.Movies.FindAsync(id);
+            if (movie is null)
+                return NotFound(false);
+
+            _dbContext.Movies.Remove(movie);
+            await _dbContext.SaveChangesAsync();
+            
+            return Ok(true);
+        }
+
+        [HttpPatch("{movieId}")]
+        public async Task<IActionResult> UpdateUserOfMovie([FromRoute]long movieId, long authorId)
+        {
+            var movie = await _dbContext.Movies.FirstOrDefaultAsync(p => p.Id == movieId);
+            if (movie is null)
+                return NotFound(null);
+
+            movie.AuthorId = authorId;
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(movie);
         }
     }
 }
