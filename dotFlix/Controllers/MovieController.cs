@@ -97,5 +97,23 @@ namespace dotFlix.Controllers
 
             return Ok(entry.Entity);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateMovie(Movie movie)
+        {
+            var entry = _dbContext.Movies.Update(movie);
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(entry.Entity);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMovie(long id)
+        {
+            var entity = await _dbContext.Movies.FindAsync(id);
+
+            return Ok(entity);
+        }
     }
 }

@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using sysJson = System.Text.Json.Serialization;
+using newJson = Newtonsoft.Json;
 
 namespace dotFlix.Models
 {
